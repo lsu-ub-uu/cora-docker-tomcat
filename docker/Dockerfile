@@ -1,4 +1,5 @@
-FROM tomcat:9.0.37-jdk14-openjdk-buster
+#FROM tomcat:9.0.37-jdk14-openjdk-buster
+FROM tomcat:9.0.43-jdk15-openjdk-buster
 
 COPY /server.xml /usr/local/tomcat/conf/
 
