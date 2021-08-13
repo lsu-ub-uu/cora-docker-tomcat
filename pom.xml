@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>se.uu.ub.cora</groupId>
 		<artifactId>cora-parent</artifactId>
-		<version>1.4.0</version>
+		<version>1.4.1</version>
 	</parent>
 
 	<artifactId>cora-docker-tomcat</artifactId>
