@@ -1,4 +1,4 @@
-FROM tomcat:10.0.20-jdk17-openjdk-buster
+FROM tomcat:11.0.2-jdk21-temurin
 
 COPY /server.xml /usr/local/tomcat/conf/
 
