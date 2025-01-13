@@ -1,3 +1,10 @@
+# NOTE: We previously obtained the Tomcat Docker image from Docker Hub. However, 
+# the Tomcat 11.0.2 version with JDK 23 was not available. Instead, we used the 
+# Dockerfile provided on Tomcat's official GitHub repository, which is used to create 
+# the official Docker images published on Docker Hub. 
+# Link to the original source: https://github.com/docker-library/tomcat/blob/master/11.0/jdk21/temurin-noble/Dockerfile
+
+
 FROM eclipse-temurin:23-jdk-noble
 
 ENV CATALINA_HOME /usr/local/tomcat
