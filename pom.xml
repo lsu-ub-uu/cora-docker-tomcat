@@ -21,8 +21,8 @@
 
 	<parent>
 		<groupId>se.uu.ub.cora</groupId>
-		<artifactId>cora-parent</artifactId>
-		<version>2.7.0</version>
+		<artifactId>cora-parent-docker</artifactId>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>cora-docker-tomcat</artifactId>
@@ -31,9 +31,8 @@
 	<name>Cora docker for Tomcat</name>
 
 	<properties>
-		<outputDirectory>${project.build.directory}/docker2</outputDirectory>
-		<exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
-		
+		<!-- Override property so docker-build profile activates in this module -->
+		<docker.build.activate>true</docker.build.activate>
 	</properties>
 
 	<scm>
@@ -43,55 +42,4 @@
 	  <tag>HEAD</tag>
   </scm>
 
-	<dependencies>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${outputDirectory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>docker</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${exec-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>docker-build</id>
-						<phase>install</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>docker</executable>
-							<workingDirectory>${outputDirectory}</workingDirectory>
-							<arguments>
-								<argument>build</argument>
-								<argument>-t</argument>
-								<argument>${project.artifactId}:${project.version}</argument>
-								<argument>.</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>
