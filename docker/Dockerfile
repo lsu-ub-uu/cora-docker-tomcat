@@ -19,13 +19,15 @@ RUN rm -rf /usr/local/tomcat/webapps.dist/ROOT \
 COPY server.xml /usr/local/tomcat/conf/
 COPY log4j2.properties /usr/local/tomcat/lib/
 
-# Ensure the tomcat user owns necessary directories
-RUN mkdir -p /usr/local/tomcat/logs /usr/local/tomcat/work /usr/local/tomcat/temp \
-    && chown -R 1000:1000 /usr/local/tomcat/logs \
-                          /usr/local/tomcat/work \
-                          /usr/local/tomcat/temp \
-                          /usr/local/tomcat/webapps \
-                          /usr/local/tomcat/conf
+# Create a dedicated non-root user for running Tomcat
+RUN groupadd -r tomcat \
+    && useradd -r -g tomcat -d /usr/local/tomcat -s /usr/sbin/nologin tomcat \
+    && mkdir -p /usr/local/tomcat/logs /usr/local/tomcat/work /usr/local/tomcat/temp \
+    && chown -R tomcat:tomcat /usr/local/tomcat/logs \
+                              /usr/local/tomcat/work \
+                              /usr/local/tomcat/temp \
+                              /usr/local/tomcat/webapps \
+                              /usr/local/tomcat/conf
 
 # Container-aware JVM settings for production
 ENV CATALINA_OPTS="-XX:+UseContainerSupport \
@@ -37,7 +39,7 @@ ENV CATALINA_OPTS="-XX:+UseContainerSupport \
 
 EXPOSE 8080
 
-USER 1000
+USER tomcat
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
     CMD bash -c '>/dev/tcp/localhost/8080' || exit 1

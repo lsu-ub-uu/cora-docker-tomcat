@@ -35,7 +35,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 | Setting | Value | Rationale |
 |---|---|---|
 | Base image | `tomcat:11.0.13-jre25-temurin-noble` | JRE-only – no compiler in production |
-| User | `1000` (non-root) | Principle of least privilege |
+| User | `tomcat` (non-root) | Principle of least privilege |
 | Shutdown port | `-1` (disabled) | Prevents remote shutdown attacks |
 | AJP secret | Required (`AJP_SECRET` env var) | Prevents AJP ghostcat-style attacks |
 | JVM flags | Container-aware (`-XX:+UseContainerSupport`, `MaxRAMPercentage=75%`) | Respects container memory limits |
@@ -43,7 +43,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 | Healthcheck | TCP check on port 8080 every 30 s | Automatic restart on failure |
 | Logging | JSON with 10 MB × 5 file rotation | Prevents disk exhaustion |
 | Filesystem | Read-only + tmpfs for `work`/`temp` | Reduces attack surface |
-| Capabilities | All dropped, only `NET_BIND_SERVICE` added | Minimal Linux capabilities |
+| Capabilities | All dropped | Minimal Linux capabilities |
 | `no-new-privileges` | Enabled | Prevents privilege escalation |
 
 ### Tuning parameters
@@ -60,9 +60,9 @@ The Compose file reserves 512 MB and limits to 1 GB of memory (adjust in `docker
 
 ## Container security checklist
 
-- [x] Non-root user in Dockerfile (`USER 1000`)
+- [x] Non-root user in Dockerfile (`USER tomcat`)
 - [x] Read-only root filesystem with writable tmpfs mounts
-- [x] All Linux capabilities dropped; only `NET_BIND_SERVICE` added
+- [x] All Linux capabilities dropped
 - [x] `no-new-privileges` security option enabled
 - [x] Default Tomcat webapps removed (manager, examples, docs, host-manager, ROOT)
 - [x] Remote shutdown port disabled (`port="-1"`)
