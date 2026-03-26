@@ -1,0 +1,22 @@
+# Build artifacts
+target/
+
+# IDE files
+.project
+.settings/
+.classpath
+.idea/
+*.iml
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed in image)
+README.md
+LICENSE
+
+# Docker and CI files
+docker-compose*.yml
+.dockerignore
+.github/
