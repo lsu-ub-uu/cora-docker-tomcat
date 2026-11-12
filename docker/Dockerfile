@@ -1,4 +1,4 @@
-FROM tomcat:11.0.13-jdk25-temurin
+FROM tomcat:11.0.27-jdk25-temurin
 
 COPY /server.xml /usr/local/tomcat/conf/
 
